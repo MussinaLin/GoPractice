@@ -9,8 +9,15 @@ type Point struct {
 func main() {
 
 	emptyInterface()
+	fmt.Println("")
 	typeAssertion()
+	fmt.Println("")
 
+	typeSwitch(123)
+	typeSwitch("mussina")
+	fmt.Println("")
+
+	fmt.Println(Point{8.7, 7.8})
 }
 
 func emptyInterface(){
@@ -35,4 +42,18 @@ func typeAssertion(){
 
 	d,ok := i.(int32)
 	fmt.Println(d , ok)
+}
+
+func typeSwitch(i interface{}){
+	switch t := i.(type) {
+	case int:
+		fmt.Printf("%T value:%v \n", t,t)
+	case string:
+		fmt.Printf("%T value:%v is %d bytes \n", t,t, len(t))
+	}
+}
+
+//One of the most ubiquitous interfaces is Stringer defined by the fmt package
+func (p Point)String() string{
+	return fmt.Sprintf("x:%f y:%f", p.x, p.y)
 }
