@@ -1,7 +1,9 @@
 package main
 
-import "testing"
-
+import (
+	"reflect"
+	"testing"
+)
 func TestGetCar(t *testing.T){
 	c, err := getCar("", 100)
 	if c == nil{
@@ -9,5 +11,48 @@ func TestGetCar(t *testing.T){
 	}
 	if err != nil{
 		t.Log("got error:", err)
+	}
+}
+
+//func TestGetCarWithAssert(t *testing.T){
+//	c, err := getCar("", 100)
+//	assert.NotNil(t, err)
+//}
+
+func Test_getCar(t *testing.T) {
+	type args struct {
+		name  string
+		price int
+	}
+	tests := []struct {
+		name    string
+		args    args
+		want    *Car
+		wantErr bool
+	}{
+		{
+			name:"test data 1",
+			args:args{name:"BMW", price:100},
+			want:&Car{name:"BMW", price:100},
+			wantErr:false,
+		},
+		{
+			name:"test data 2",
+			args:args{name:"BME", price:200},
+			want:&Car{name:"BME", price:200},
+			wantErr:false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got, err := getCar(tt.args.name, tt.args.price)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("getCar() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("getCar() got = %v, want %v", got, tt.want)
+			}
+		})
 	}
 }
