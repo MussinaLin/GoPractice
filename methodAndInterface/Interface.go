@@ -6,6 +6,8 @@ type Point struct {
 	x,y float64
 }
 
+type IPAddr [4]byte
+
 func main() {
 
 	emptyInterface()
@@ -18,6 +20,8 @@ func main() {
 	fmt.Println("")
 
 	fmt.Println(Point{8.7, 7.8})
+
+	fmt.Println(IPAddr{127,0,0,1})
 }
 
 func emptyInterface(){
@@ -57,3 +61,9 @@ func typeSwitch(i interface{}){
 func (p Point)String() string{
 	return fmt.Sprintf("x:%f y:%f", p.x, p.y)
 }
+
+func (ip IPAddr) String() string{
+	return fmt.Sprintf("%v.%v.%v.%v", ip[0],ip[1],ip[2],ip[3])
+}
+
+
