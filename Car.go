@@ -5,6 +5,7 @@ import (
 	"time"
 )
 
+//Car is a test struct for writing test case.
 type Car struct{
 	name string
 	price int

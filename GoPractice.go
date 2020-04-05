@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"time"
+	"sync"
 )
 
 const (
@@ -31,12 +31,17 @@ func init(){
 }
 func main() {
 
+	wg := sync.WaitGroup{}
+	wg.Add(10)
+	fmt.Printf("ori wg:%p\n", &wg)
 	for i:=0;i<10;i++{
-		go func(i int){
+		go func(i int, wg *sync.WaitGroup){
 			fmt.Println("routine:", i)
-		}(i)
-		fmt.Println(i)
+			fmt.Printf("wg:%p\n", wg)
+			fmt.Printf("&wg:%p\n", &wg)
+			wg.Done()
+		}(i, &wg)
 	}
 
-	time.Sleep(1 * time.Second)
+	wg.Wait()
 }
